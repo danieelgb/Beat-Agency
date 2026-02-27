@@ -150,25 +150,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const acceptBtn = document.getElementById("accept-cookies");
     const rejectBtn = document.getElementById("reject-cookies");
 
-    // Verificar si el usuario ya tomó una decisión antes
-    if (!localStorage.getItem("cookiesAccepted")) {
-        // Mostrar el banner tras 1 segundo
+    // 1. Comprobar si ya se mostró el banner en ESTA pestaña/sesión
+    if (!sessionStorage.getItem("cookieShownInSession")) {
+        // Mostrar el banner tras 1.5 segundos
         setTimeout(() => {
             banner.classList.add("show");
-        }, 1000);
+        }, 1500);
     }
 
-    // Acción al Aceptar
+    // 2. Al hacer clic en Aceptar
     acceptBtn.addEventListener("click", () => {
-        localStorage.setItem("cookiesAccepted", "true");
+        // Guardamos que ya se mostró para que no vuelva a salir en esta pestaña
+        sessionStorage.setItem("cookieShownInSession", "true");
         banner.classList.remove("show");
-        console.log("Cookies aceptadas");
     });
 
-    // Acción al Rechazar
+    // 3. Al hacer clic en Rechazar
     rejectBtn.addEventListener("click", () => {
-        localStorage.setItem("cookiesAccepted", "false");
+        // También guardamos la sesión aunque rechace, para no ser pesados
+        sessionStorage.setItem("cookieShownInSession", "true");
         banner.classList.remove("show");
-        console.log("Cookies rechazadas");
     });
 });
